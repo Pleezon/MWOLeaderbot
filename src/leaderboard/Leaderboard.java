@@ -17,6 +17,13 @@ public class Leaderboard {
     public static void init() {
         try {
             new File(filename).createNewFile();
+            new File(filename + ".old").createNewFile();
+
+            Properties p = new Properties();
+            p.load(new BufferedInputStream(new FileInputStream(filename)));
+
+            p.store(new BufferedOutputStream(new FileOutputStream(filename + ".old")), "");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
