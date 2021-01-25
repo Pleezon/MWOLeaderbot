@@ -38,6 +38,8 @@ public class AddMatch extends Command {
            String[] ids = Arrays.stream(contents).skip(1).collect(Collectors.toUnmodifiableList()).toArray(new String[0]);
            boolean failed = false;
            for (String id : ids) {
+               System.out.printf("INFO: adding match id %s%n", id);
+
                Match match = Match.loadFromUrl(String.format("https://mwomercs.com/api/v1/matches/%s?api_token=%s", id, Token.getApi()));
 
                if (match != null) {
