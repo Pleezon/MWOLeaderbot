@@ -97,15 +97,13 @@ public class AddMatch extends Command {
                    else if (match.getWinner() == 1) {
                        for (Player p : teamAL) {
                            int elo = p.getElo();
-                           int newElo = (int) (elo - (0.2 * (elo - (avgElo))));
-                           newElo += 100;
+                           int newElo = (int) (elo - (0.2 * (elo - (avgElo + 100))));
                            p.setElo(newElo);
                            Leaderboard.save(p);
                        }
                        for (Player p : teamBL) {
                            int elo = p.getElo();
-                           int newElo = (int) (elo - (0.2 * (elo - (avgElo))));
-                           newElo -= 100;
+                           int newElo = (int) (elo - (0.2 * (elo - (avgElo - 100))));
                            p.setElo(newElo);
                            Leaderboard.save(p);
                        }
@@ -114,15 +112,13 @@ public class AddMatch extends Command {
                    else if (match.getWinner() == 2) {
                        for (Player p : teamAL) {
                            int elo = p.getElo();
-                           int newElo = (int) (elo - (0.2 * (elo - (avgElo))));
-                           newElo -= 100;
+                           int newElo = (int) (elo - (0.2 * (elo - (avgElo - 100))));
                            p.setElo(newElo);
                            Leaderboard.save(p);
                        }
                        for (Player p : teamBL) {
                            int elo = p.getElo();
-                           int newElo = (int) (elo - (0.2 * (elo - (avgElo))));
-                           newElo += 100;
+                           int newElo = (int) (elo - (0.2 * (elo - (avgElo + 100))));
                            p.setElo(newElo);
                            Leaderboard.save(p);
                        }

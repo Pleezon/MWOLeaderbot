@@ -34,7 +34,7 @@ public class Leaderboard {
             Properties p = new Properties();
             p.load(new BufferedInputStream(new FileInputStream(filename)));
             if (!p.containsKey(name)) {
-                Player player = new Player(name, 0, 0, 0, 0, 0, 5000);
+                Player player = new Player(name, 0, 0, 0, 0, 0, 2500);
                 save(player);
                 return player;
             } else {
