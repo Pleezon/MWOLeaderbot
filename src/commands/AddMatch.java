@@ -26,7 +26,7 @@ public class AddMatch extends Command {
 
         if (!event.isFromGuild() || !event.getGuild().getId().equals("782714600399175712")
                 || event.getMember() == null || !event.getMember().hasPermission(Permission.MANAGE_PERMISSIONS)) {
-            System.out.println("No Perms");
+            event.getMessage().addReaction("❌").queue();
             return;
         }
 
