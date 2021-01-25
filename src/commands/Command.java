@@ -16,6 +16,6 @@ public abstract class Command extends ListenerAdapter {
 
 
     public static void handle(MessageReceivedEvent e){
-        Arrays.stream(commands).filter((c)->e.getMessage().getContentRaw().startsWith(c.getClass().getSimpleName().toLowerCase())).forEach((c)->{c.exec(e);});
+        Arrays.stream(commands).filter((c)->e.getMessage().getContentRaw().startsWith(prefix + c.getClass().getSimpleName().toLowerCase())).forEach((c)-> c.exec(e));
     }
 }

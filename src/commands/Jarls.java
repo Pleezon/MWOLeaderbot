@@ -15,12 +15,12 @@ import java.util.Objects;
 
 public class Jarls extends Command {
     public void exec(MessageReceivedEvent message) {
+
         final TextChannel channel = (TextChannel) message.getChannel();
 
         String[] contents = message.getMessage().getContentRaw().split(" ");
         if (contents.length == 1) {
-            String name = Objects.requireNonNull(message.getMember()).getNickname();
-            assert name != null;
+            String name = Objects.requireNonNull(message.getMember()).getEffectiveName();
             sendOverall(channel, name.replace(" ", "+"));
         } else {
             String name = contents[1];
