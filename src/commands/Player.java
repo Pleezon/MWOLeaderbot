@@ -80,11 +80,11 @@ public class Player extends Command {
 
                 .addField("Wins", String.valueOf(player.getWins()), true)
                 .addField("Losses", String.valueOf(player.getLosses()), true)
-                .addField("W/L Ratio", String.valueOf(player.getWLR()), true)
+                .addField("W/L Ratio", String.format("%.3g", player.getWLR()), true)
 
                 .addField("Kills", String.valueOf(player.getKills()), true)
                 .addField("Deaths", String.valueOf(player.getDeaths()), true)
-                .addField("K/D Ratio", String.valueOf(player.getKDR()), true)
+                .addField("K/D Ratio", String.format("%.3g", player.getKDR()), true)
 
 
                 .setThumbnail("https://1.bp.blogspot.com/-KluZqBTRsDk/XFrdJXz_gAI/AAAAAAAAAAQ/VInbxjjdSrookRkrtP1uK7_hRB1uuO4XwCK4BGAYYCw/s1600/mwocomplogosmall.png")
