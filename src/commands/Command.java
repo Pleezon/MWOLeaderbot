@@ -9,11 +9,8 @@ public abstract class Command extends ListenerAdapter {
     static final String prefix = "!";
     public abstract void exec(MessageReceivedEvent event);
 
-    public Command(){
-
-    }
     public static Command[] commands = new Command[]{
-            new Help()
+            new Help(), new Jarls()
     };
 
 
