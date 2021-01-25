@@ -2,6 +2,9 @@ package leaderboard;
 
 import java.io.*;
 import java.nio.Buffer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 public class Leaderboard{
@@ -41,6 +44,23 @@ public class Leaderboard{
             System.out.println("Failed whilst saving player: " + player);
             e.printStackTrace();
         }
+    }
+
+    public static int getRank(Player player){
+        try{
+            Properties p = new Properties();
+            p.load(new BufferedInputStream(new FileInputStream(filename)));
+            List<Player> toplist= sort(p);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    private static List<Player> sort(Properties properties){
+
 
     }
 

@@ -32,6 +32,30 @@ public class Player {
         return k;
     }
 
+    public void setK(int k) {
+        this.k = k;
+    }
+
+    public void setD(int d) {
+        this.d = d;
+    }
+
+    public void setW(int w) {
+        this.w = w;
+    }
+
+    public void setL(int l) {
+        this.l = l;
+    }
+
+    public void setGamesPlayed(int gamesPlayed) {
+        this.gamesPlayed = gamesPlayed;
+    }
+
+    public void setElo(int elo) {
+        this.elo = elo;
+    }
+
     public int getDeaths() {
         return d;
     }
@@ -50,6 +74,13 @@ public class Player {
 
     public int getElo() {
         return elo;
+    }
+
+    public double getKDR(){
+        return d==0? k :(double)k/(double) d;
+    }
+    public double getWLR(){
+        return l==0? w :(double)w/(double) l;
     }
 
     @Override
