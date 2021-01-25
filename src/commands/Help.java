@@ -24,7 +24,7 @@ public class Help extends Command {
                 .addField("player [playername]", "shows leaderboard profile of the specified player (your discord nickname if none given)", false)
                 .addField("addmatch [match ids]", "adds matches to the database (Admin only)", false)
 
-                .setThumbnail("https://cdn.discordapp.com/app-icons/751793516396544040/f2ac95ab98cf319dbc24ef7c6a1c23ce.png")
+                .setThumbnail(botLogo)
                 .setFooter("MWO Leaderboards Bot", null)
                 .setTimestamp(Instant.now());
         channel.sendMessage(b.build()).queue();

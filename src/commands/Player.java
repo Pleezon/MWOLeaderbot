@@ -40,7 +40,7 @@ public class Player extends Command {
                 .setAuthor("MWO Comp Leaderboard", null, null)
                 .setTitle("Not Found!")
                 .setDescription("The Player with Username " + playerName + " was not found.")
-                .setThumbnail("https://1.bp.blogspot.com/-KluZqBTRsDk/XFrdJXz_gAI/AAAAAAAAAAQ/VInbxjjdSrookRkrtP1uK7_hRB1uuO4XwCK4BGAYYCw/s1600/mwocomplogosmall.png")
+                .setThumbnail(mwoCompLogo)
                 .setFooter("MWO Leaderboards Bot", null)
                 .setTimestamp(Instant.now());
         channel.sendMessage(b.build()).queue();

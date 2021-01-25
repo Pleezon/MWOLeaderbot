@@ -46,7 +46,7 @@ public class Leaderboard extends Command {
                 .addField("Rank", f1.toString(), true)
                 .addField("Name", f2.toString(), true)
                 .addField("Elo", f3.toString(), true)
-                .setThumbnail("https://1.bp.blogspot.com/-KluZqBTRsDk/XFrdJXz_gAI/AAAAAAAAAAQ/VInbxjjdSrookRkrtP1uK7_hRB1uuO4XwCK4BGAYYCw/s1600/mwocomplogosmall.png")
+                .setThumbnail(mwoCompLogo)
                 .setFooter("MWO Leaderboards Bot", null)
                 .setTimestamp(Instant.now());
 

@@ -43,7 +43,7 @@ public class Jarls extends Command {
                 .setAuthor("Jarl's List", "https://leaderboard.isengrim.org/", null)
                 .setTitle("Not Found!")
                 .setDescription("The Player with Username " + playerName + " was not found.")
-                .setThumbnail("https://leaderboard.isengrim.org/Isenlogosmall.png")
+                .setThumbnail(jarlsLogo)
                 .setFooter("MWO Leaderboards Bot", null)
                 .setTimestamp(Instant.now());
         channel.sendMessage(b.build()).queue();
@@ -117,7 +117,7 @@ public class Jarls extends Command {
                         .addField("First Season", String.valueOf(firstSeason), true)
                         .addField("Last Season", String.valueOf(lastSeason), true)
 
-                        .setThumbnail("https://leaderboard.isengrim.org/Isenlogosmall.png")
+                        .setThumbnail(jarlsLogo)
                         .setFooter("MWO Leaderboards Bot", null)
                         .setTimestamp(Instant.now());
                 channel.sendMessage(b.build()).queue();
