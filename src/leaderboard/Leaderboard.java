@@ -14,19 +14,6 @@ public class Leaderboard {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        getPlayer("TestK");
-        getPlayer("TestL");
-        getPlayer("TestM");
-        getPlayer("TestN");
-        getPlayer("TestO");
-        getPlayer("TestP");
-        getPlayer("TestQ");
-        getPlayer("TestR");
-        getPlayer("TestS");
-        getPlayer("TestT");
-
-
     }
 
     public static Player getPlayer(String name) {
