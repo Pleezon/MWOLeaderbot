@@ -5,6 +5,9 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.util.Arrays;
 
+/**
+ * @author Pleezon & B4CKF1SH
+ */
 public abstract class Command extends ListenerAdapter {
     static final String prefix = "!";
     public abstract void exec(MessageReceivedEvent event);

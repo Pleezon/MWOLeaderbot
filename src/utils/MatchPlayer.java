@@ -1,6 +1,10 @@
 package utils;
+
 import org.json.JSONObject;
 
+/**
+ * @author Pleezon & B4CKF1SH
+ */
 public class MatchPlayer {
 
     private final String username;

@@ -1,9 +1,8 @@
 package leaderboard;
 
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.UUID;
-
+/**
+ * @author Pleezon & B4CKF1SH
+ */
 public class Player {
     private String name;
     private int k;

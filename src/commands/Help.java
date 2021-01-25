@@ -1,13 +1,15 @@
 package commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import java.awt.*;
+import java.awt.Color;
 import java.time.Instant;
 
+/**
+ * @author Pleezon & B4CKF1SH
+ */
 public class Help extends Command {
     @Override
     public void exec(MessageReceivedEvent event) {

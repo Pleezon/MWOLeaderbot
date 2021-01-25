@@ -3,9 +3,6 @@ package commands;
 import leaderboard.Leaderboard;
 import leaderboard.Player;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Emote;
-import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import token.Token;
@@ -15,9 +12,11 @@ import utils.MatchPlayer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * @author Pleezon & B4CKF1SH
+ */
 public class AddMatch extends Command {
 
     @Override

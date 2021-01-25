@@ -8,11 +8,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import utils.JsonReader;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.Objects;
 
+/**
+ * @author Pleezon & B4CKF1SH
+ */
 public class Jarls extends Command {
     public void exec(MessageReceivedEvent message) {
 

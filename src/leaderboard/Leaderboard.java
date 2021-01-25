@@ -1,10 +1,16 @@
 package leaderboard;
 
+
 import java.io.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * @author Pleezon & B4CKF1SH
+ */
 public class Leaderboard {
     private static String filename = "./leaderboard.mwo";
 

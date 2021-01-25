@@ -7,6 +7,9 @@ import token.Token;
 
 import javax.security.auth.login.LoginException;
 
+/**
+ * @author Pleezon & B4CKF1SH
+ */
 public class Bot {
     public static JDA jda;
 

@@ -10,6 +10,9 @@ import java.nio.charset.Charset;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * @author Pleezon & B4CKF1SH
+ */
 public class JsonReader {
 
     private static String readAll(Reader rd) throws IOException {

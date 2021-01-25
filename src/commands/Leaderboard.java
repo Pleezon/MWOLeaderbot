@@ -5,13 +5,13 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import java.awt.*;
+import java.awt.Color;
 import java.time.Instant;
-import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+/**
+ * @author Pleezon & B4CKF1SH
+ */
 public class Leaderboard extends Command {
     @Override
     public void exec(MessageReceivedEvent event) {

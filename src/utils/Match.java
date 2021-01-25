@@ -9,6 +9,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Pleezon & B4CKF1SH
+ */
 public class Match {
 
     private final MatchPlayer[] specs;

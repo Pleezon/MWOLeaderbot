@@ -4,20 +4,15 @@ import leaderboard.Leaderboard;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.json.JSONException;
-import org.json.JSONObject;
-import utils.JsonReader;
 
-import java.awt.*;
-import java.io.IOException;
+import java.awt.Color;
 import java.time.Instant;
 import java.util.Objects;
-import java.util.OptionalInt;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+/**
+ * @author Pleezon & B4CKF1SH
+ */
 public class Player extends Command {
     public void exec(MessageReceivedEvent message) {
 
