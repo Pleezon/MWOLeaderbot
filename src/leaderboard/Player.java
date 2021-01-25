@@ -108,5 +108,9 @@ public class Player {
         }
     }
 
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof Player && this.name .equals(((Player) other).getName());
+    }
 
 }

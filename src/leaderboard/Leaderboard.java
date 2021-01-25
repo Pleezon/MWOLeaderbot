@@ -1,68 +1,99 @@
 package leaderboard;
 
 import java.io.*;
-import java.nio.Buffer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class Leaderboard{
+public class Leaderboard {
     private static String filename = "./leaderboard.mwo";
-    public static void init(){
+
+    public static void init() {
         try {
             new File(filename).createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        getPlayer("TestK");
+        getPlayer("TestL");
+        getPlayer("TestM");
+        getPlayer("TestN");
+        getPlayer("TestO");
+        getPlayer("TestP");
+        getPlayer("TestQ");
+        getPlayer("TestR");
+        getPlayer("TestS");
+        getPlayer("TestT");
+
+
     }
 
-    public static Player getPlayer(String name){
-        try{
+    public static Player getPlayer(String name) {
+        try {
             Properties p = new Properties();
             p.load(new BufferedInputStream(new FileInputStream(filename)));
-            if(!p.containsKey(name)){
-                Player player = new Player(name,0,0,0,0,0,5000);
+            if (!p.containsKey(name)) {
+                Player player = new Player(name, 0, 0, 0, 0, 0, 5000);
                 save(player);
                 return player;
-            }else{
+            } else {
                 return Player.fromString(p.getProperty(name));
             }
-        }catch (Exception e){e.printStackTrace();return null;}
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 
 
     }
 
-    public static void save(Player player){
-        try{
+    public static void save(Player player) {
+        try {
             Properties p = new Properties();
             p.load(new BufferedInputStream(new FileInputStream(filename)));
-            p.put(player.getName(),player.toString());
-            p.store(new BufferedOutputStream(new FileOutputStream(filename)),"");
-        }catch (Exception e){
+            p.put(player.getName(), player.toString());
+            p.store(new BufferedOutputStream(new FileOutputStream(filename)), "");
+        } catch (Exception e) {
             System.out.println("Failed whilst saving player: " + player);
             e.printStackTrace();
         }
     }
 
-    public static int getRank(Player player){
-        try{
+    public static int getRank(Stream<Player> ranks, Player p) {
+        return ranks.collect(Collectors.toUnmodifiableList()).indexOf(p);
+    }
+
+    /**
+     * VERY inefficient method of getting all ranks
+     * use as few times as possible.
+     *
+     * @return Stream of all Players sorted by ranks
+     */
+    public static Stream<Player> getRanks() {
+        try {
             Properties p = new Properties();
             p.load(new BufferedInputStream(new FileInputStream(filename)));
-            List<Player> toplist= sort(p);
-
-
-        }catch (Exception e){
+            Collection<Object> objects = p.values();
+            return objects.stream().filter(o -> o instanceof String).map((o) -> (String) o).map(Player::fromString).sorted(Comparator.comparingInt(Player::getElo));
+        } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-
     }
 
-    private static List<Player> sort(Properties properties){
-
-
+    public static Player getPlayerSafe(String name) {
+        try {
+            Properties p = new Properties();
+            p.load(new BufferedInputStream(new FileInputStream(filename)));
+            if (!p.containsKey(name)) {
+                return null;
+            } else {
+                return Player.fromString(p.getProperty(name));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-
-
 }
