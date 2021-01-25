@@ -11,7 +11,6 @@ import java.util.List;
 
 public class Match {
 
-    private static final String apiKey = "pH5We3ICZdkZ9UQE0ZSV9gt3idYwi5lMrNSKObqjCEVjBzXmpo6jlPWccAyX";
     private final MatchPlayer[] specs;
     private final MatchPlayer[] teamA;
     private final MatchPlayer[] teamB;
@@ -68,19 +67,24 @@ public class Match {
                 }
             }
 
-            int winner = Integer.parseInt(data.getString("WinningTeam"));
+            JSONObject matchDetails = data.getJSONObject("MatchDetails");
+            String winningTeam = null;
+            try {
+                winningTeam = matchDetails.getString("WinningTeam");
+            } catch(JSONException e) {}
 
-            Instant date = Instant.parse(data.getString("CompleteTime").substring(0, 19) + ".00Z");
+            int winner = 0;
+            if (winningTeam != null) winner = Integer.parseInt(winningTeam);
+
+            Instant date = Instant.parse(matchDetails.getString("CompleteTime").substring(0, 19) + ".00Z");
 
 
             return new Match(specList.toArray(new MatchPlayer[0]), teamAList.toArray(new MatchPlayer[0]), teamBList.toArray(new MatchPlayer[0]), winner, date);
 
 
         } catch (IOException e) {
-            e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     public MatchPlayer[] getTeamA() {

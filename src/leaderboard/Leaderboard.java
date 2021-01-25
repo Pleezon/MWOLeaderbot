@@ -62,7 +62,7 @@ public class Leaderboard {
             Properties p = new Properties();
             p.load(new BufferedInputStream(new FileInputStream(filename)));
             Collection<Object> objects = p.values();
-            return objects.stream().filter(o -> o instanceof String).map((o) -> (String) o).map(Player::fromString).sorted(Comparator.comparingInt(Player::getElo));
+            return objects.stream().filter(o -> o instanceof String).map((o) -> (String) o).map(Player::fromString).sorted(Comparator.comparingDouble(Player::getKDR).reversed()).sorted(Comparator.comparingDouble(Player::getWLR).reversed()).sorted(Comparator.comparingInt(Player::getElo).reversed());
         } catch (Exception e) {
             e.printStackTrace();
             return null;
