@@ -1,7 +1,6 @@
 package commands;
 
 
-
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -14,7 +13,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.Objects;
 
-public class Jarls extends Command{
+public class Jarls extends Command {
     public void exec(MessageReceivedEvent message) {
         final TextChannel channel = (TextChannel) message.getChannel();
 
@@ -23,8 +22,7 @@ public class Jarls extends Command{
             String name = Objects.requireNonNull(message.getMember()).getNickname();
             assert name != null;
             sendOverall(channel, name.replace(" ", "+"));
-        }
-        else {
+        } else {
             String name = contents[1];
             if (contents.length > 2) {
                 for (int i = 2; i < contents.length; i++) {
@@ -60,13 +58,15 @@ public class Jarls extends Command{
                 double percentile = 0;
                 try {
                     percentile = data.getDouble("Percentile");
-                } catch (JSONException lol) {}
+                } catch (JSONException lol) {
+                }
 
                 String tag = "";
                 try {
                     String unit = data.getString("UnitTag");
                     if (unit != null) tag = "[" + unit + "] ";
-                } catch (JSONException lol) {}
+                } catch (JSONException lol) {
+                }
                 String tagRef = tag;
 
                 double wlRatio = data.getDouble("WLRatio");
@@ -94,29 +94,29 @@ public class Jarls extends Command{
                 final String percentileRef = percentile + "%";
 
                 EmbedBuilder b = new EmbedBuilder();
-                        b.setColor(new Color(0xf74a19))
-                                .setAuthor("Jarl's List (Season " + serverSeason + ")", "https://leaderboard.isengrim.org/", null)
-                                .setTitle(tagRef + name)
-                                .addField("Rank", retired ? "Retired" : String.valueOf(rank), true)
-                                .addField("Percentile", percentileRef, true)
-                                .addField("Games Played", String.valueOf(gamesPlayed), true)
+                b.setColor(new Color(0xf74a19))
+                        .setAuthor("Jarl's List (Season " + serverSeason + ")", "https://leaderboard.isengrim.org/", null)
+                        .setTitle(tagRef + name)
+                        .addField("Rank", retired ? "Retired" : String.valueOf(rank), true)
+                        .addField("Percentile", percentileRef, true)
+                        .addField("Games Played", String.valueOf(gamesPlayed), true)
 
-                                .addField("W/L Ratio", String.valueOf(wlRatio), true)
-                                .addField("K/D Ratio", String.valueOf(kdRatio), true)
-                                .addField("Adjusted Score", String.valueOf(adjustedScore), true)
+                        .addField("W/L Ratio", String.valueOf(wlRatio), true)
+                        .addField("K/D Ratio", String.valueOf(kdRatio), true)
+                        .addField("Adjusted Score", String.valueOf(adjustedScore), true)
 
-                                .addField("Survival Rate", survivalRate + "%", true)
-                                .addField("Kills Per Match", String.valueOf(killsPerMatch), true)
+                        .addField("Survival Rate", survivalRate + "%", true)
+                        .addField("Kills Per Match", String.valueOf(killsPerMatch), true)
 
-                                .addField("L/M/H/A", lightPercent + "%/" + mediumPercent + "%/" + heavyPercent + "%/" + assaultPercent + "%", false)
+                        .addField("L/M/H/A", lightPercent + "%/" + mediumPercent + "%/" + heavyPercent + "%/" + assaultPercent + "%", false)
 
-                                .addField("First Season", String.valueOf(firstSeason), true)
-                                .addField("Last Season", String.valueOf(lastSeason), true)
+                        .addField("First Season", String.valueOf(firstSeason), true)
+                        .addField("Last Season", String.valueOf(lastSeason), true)
 
-                                .setThumbnail("https://leaderboard.isengrim.org/Isenlogosmall.png")
-                                .setFooter("MWO Leaderboards Bot", null)
-                                .setTimestamp(Instant.now());
-                        channel.sendMessage(b.build()).queue();
+                        .setThumbnail("https://leaderboard.isengrim.org/Isenlogosmall.png")
+                        .setFooter("MWO Leaderboards Bot", null)
+                        .setTimestamp(Instant.now());
+                channel.sendMessage(b.build()).queue();
             } catch (JSONException exception) {
                 exception.printStackTrace();
                 sendNotFound(channel, playerName);
