@@ -4,21 +4,19 @@ package commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 import utils.JsonReader;
 
 import java.awt.*;
 import java.io.IOException;
-import java.nio.channels.Channel;
 import java.time.Instant;
 import java.util.Objects;
 
 public class Jarls extends Command{
-    public void exec(GuildMessageReceivedEvent message) {
-        final TextChannel channel = message.getChannel();
+    public void exec(MessageReceivedEvent message) {
+        final TextChannel channel = (TextChannel) message.getChannel();
 
         String[] contents = message.getMessage().getContentRaw().split(" ");
         if (contents.length == 1) {

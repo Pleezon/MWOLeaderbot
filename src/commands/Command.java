@@ -1,22 +1,24 @@
 package commands;
 
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.util.Arrays;
 
-public abstract class Command {
+public abstract class Command extends ListenerAdapter {
     static final String prefix = "!";
-    public abstract void exec(GuildMessageReceivedEvent event);
+    public abstract void exec(MessageReceivedEvent event);
 
+    public Command(){
 
+    }
     public static Command[] commands = new Command[]{
             new Help()
     };
 
-    public static void handle(GuildMessageReceivedEvent e){
+
+
+    public static void handle(MessageReceivedEvent e){
         Arrays.stream(commands).filter((c)->e.getMessage().getContentRaw().startsWith(c.getClass().getSimpleName().toLowerCase())).forEach((c)->{c.exec(e);});
     }
 }

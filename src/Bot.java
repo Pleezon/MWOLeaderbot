@@ -1,3 +1,5 @@
+import commands.Command;
+import commands.MessageHandler;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -8,8 +10,8 @@ public class Bot {
     public static JDA jda;
 
     public static void main(String[] args) throws LoginException, InterruptedException {
-        jda = JDABuilder.createDefault("NzUxNzkzNTE2Mzk2NTQ0MDQw.X1OQRQ.xl9fZCFnY46othwRtA1jJAlVPW4").addEventListeners(
-
+        jda = JDABuilder.createDefault("").addEventListeners(
+            new MessageHandler()
         ).setActivity(Activity.watching("CommunityJam")).build();
         jda.awaitReady();
     }
