@@ -64,8 +64,6 @@ public class Player extends Command {
 
         String rank = "None";
 
-        System.out.println("Test C");
-
         int rankInt = Leaderboard.getRank(ranks, player);
 
         if (rankInt >= 0) {

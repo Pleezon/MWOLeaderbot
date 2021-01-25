@@ -27,10 +27,7 @@ public class Leaderboard extends Command {
         int minRank = 10 * (page - 1);
         int maxRank = 10 * (page);
 
-        System.out.println("Test A");
         Player[] ranks = leaderboard.Leaderboard.getRanks().skip(minRank).limit(maxRank - minRank).collect(Collectors.toUnmodifiableList()).toArray(new Player[0]);
-        System.out.println("Test B");
-
 
         StringBuilder f1 = new StringBuilder();
         StringBuilder f2 = new StringBuilder();

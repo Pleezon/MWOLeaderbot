@@ -10,7 +10,7 @@ public abstract class Command extends ListenerAdapter {
     public abstract void exec(MessageReceivedEvent event);
 
     public static Command[] commands = new Command[]{
-            new Help(), new Jarls(), new Leaderboard(), new Player()
+            new Help(), new Jarls(), new Leaderboard(), new Player(), new AddMatch()
     };
 
 
