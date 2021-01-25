@@ -36,7 +36,8 @@ public class Jarls extends Command {
 
     private static void sendNotFound(TextChannel channel, String playerName) {
         EmbedBuilder b = new EmbedBuilder();
-        b.setAuthor("Jarl's List", "https://leaderboard.isengrim.org/", null)
+        b.setColor(new Color(0xf74a19))
+                .setAuthor("Jarl's List", "https://leaderboard.isengrim.org/", null)
                 .setTitle("Not Found!")
                 .setDescription("The Player with Username " + playerName + " was not found.")
                 .setThumbnail("https://leaderboard.isengrim.org/Isenlogosmall.png")
