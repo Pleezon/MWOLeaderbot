@@ -10,9 +10,9 @@ public class Bot {
     public static JDA jda;
 
     public static void main(String[] args) throws LoginException, InterruptedException {
-        jda = JDABuilder.createDefault("").addEventListeners(
+        jda = JDABuilder.createDefault(Token.getToken()).addEventListeners(
             new MessageHandler()
-        ).setActivity(Activity.watching("CommunityJam")).build();
+        ).setActivity(Activity.watching("sample text")).build();
         jda.awaitReady();
     }
 }

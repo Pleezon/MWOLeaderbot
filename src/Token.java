@@ -1,5 +1,5 @@
 public class Token {
-    public String getToken(){
+    public static String getToken(){
         return "";
     }
 }
