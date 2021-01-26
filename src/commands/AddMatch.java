@@ -28,7 +28,7 @@ public class AddMatch extends Command {
     //the biggest elo difference accounted for
     private static final int MAX_UPSET = 1000;
 
-    private static final double SCALE_VALUE = Math.pow(MAX_UPSET, 3) / (MAX_CHANGE - WIN_CHANGE);
+    private static final double SCALE_VALUE = Math.pow(MAX_UPSET, 2) / (MAX_CHANGE - WIN_CHANGE);
 
     @Override
     public void exec(MessageReceivedEvent event) {
@@ -122,7 +122,7 @@ public class AddMatch extends Command {
                        aElo /= teamA.length;
                        bElo /= teamB.length;
 
-                       int matchVal = (int) Math.round(Math.pow(aElo - bElo, 3) / SCALE_VALUE);
+                       int matchVal = (int) Math.round(Math.pow(bElo - aElo, 2) / SCALE_VALUE);
 
                        int aWinVal = Math.max(Math.min(matchVal + WIN_CHANGE, MAX_CHANGE), 0);
                        int aLossVal = Math.max(Math.min(matchVal - WIN_CHANGE, 0), -MAX_CHANGE);
