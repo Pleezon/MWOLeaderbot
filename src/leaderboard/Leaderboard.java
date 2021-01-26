@@ -12,19 +12,58 @@ import java.util.stream.Stream;
  * @author Pleezon & B4CKF1SH
  */
 public class Leaderboard {
+
+    private static final int STARTING_ELO = 1500;
+
     private static String filename = "./leaderboard.mwo";
+    private static String matchfile = "./matches.mwo";
 
     public static void init() {
         try {
             new File(filename).createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
             new File(filename + ".old").createNewFile();
 
             Properties p = new Properties();
             p.load(new BufferedInputStream(new FileInputStream(filename)));
 
             p.store(new BufferedOutputStream(new FileOutputStream(filename + ".old")), "");
-
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            new File(matchfile).createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public static boolean matchExists(String id) {
+        try {
+            Properties p = new Properties();
+            p.load(new BufferedInputStream(new FileInputStream(matchfile)));
+            return p.containsKey(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static void saveMatch(String id) {
+        try {
+            Properties p = new Properties();
+            p.load(new BufferedInputStream(new FileInputStream(matchfile)));
+            p.put(id, ".");
+            p.store(new BufferedOutputStream(new FileOutputStream(matchfile)), "");
+        } catch (Exception e) {
+            System.out.printf("Failed whilst adding match id %s to used list.%n", id);
             e.printStackTrace();
         }
     }
@@ -34,7 +73,7 @@ public class Leaderboard {
             Properties p = new Properties();
             p.load(new BufferedInputStream(new FileInputStream(filename)));
             if (!p.containsKey(name)) {
-                Player player = new Player(name, 0, 0, 0, 0, 0, 2500);
+                Player player = new Player(name, 0, 0, 0, 0, 0, STARTING_ELO);
                 save(player);
                 return player;
             } else {

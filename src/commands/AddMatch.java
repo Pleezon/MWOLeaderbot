@@ -19,6 +19,17 @@ import java.util.stream.Collectors;
  */
 public class AddMatch extends Command {
 
+    //how much the players middle out after a tie
+    private static final float TIE_TO_AVG_PERCENT = 0.1f;
+    //straight up change for a win/loss with equal elo
+    private static final int WIN_CHANGE = 10;
+    //biggest elo gain/loss allowed (reached at an elo difference of MAX_UPSET)
+    private static final int MAX_CHANGE = 100;
+    //the biggest elo difference accounted for
+    private static final int MAX_UPSET = 1000;
+
+    private static final double SCALE_VALUE = Math.pow(MAX_UPSET, 3) / (MAX_CHANGE - WIN_CHANGE);
+
     @Override
     public void exec(MessageReceivedEvent event) {
 
@@ -35,103 +46,152 @@ public class AddMatch extends Command {
             Command.commands[0].exec(event);
         } else {
            String[] ids = Arrays.stream(contents).skip(1).collect(Collectors.toUnmodifiableList()).toArray(new String[0]);
-           boolean failed = false;
+
+           int failed = 0;
+           List<String> failedIds = new ArrayList<>();
+           int successful = 0;
+           int skipped = 0;
+
+           int attemptCap = 0;
+
+            channel.sendMessage(
+                    String.format("%d matches, estimated time: %d minutes", ids.length, ids.length/59)
+            ).queue();
+
            for (String id : ids) {
-               System.out.printf("INFO: adding match id %s%n", id);
+               attemptCap++;
+               if (attemptCap > 60) {
+                   try {
+                       Thread.sleep(65000);
+                       attemptCap = 0;
+                   } catch (InterruptedException e) {
+                   }
+               }
+               System.out.printf("INFO: Adding match ID %s...%n", id);
 
                Match match = Match.loadFromUrl(String.format("https://mwomercs.com/api/v1/matches/%s?api_token=%s", id, Token.getApi()));
+
+               if (Leaderboard.matchExists(id)) {
+                   System.out.printf("WARN: Match ID %s already registered, skipping.%n", id);
+                   skipped++;
+                   continue;
+               }
 
                if (match != null) {
                    MatchPlayer[] teamA = match.getTeamA();
                    MatchPlayer[] teamB = match.getTeamB();
 
-                   List<Player> teamAL = new ArrayList<>();
-                   List<Player> teamBL = new ArrayList<>();
+                   if (teamA.length == teamB.length) {
 
-                   for (MatchPlayer p : teamA) {
-                       Player player = Leaderboard.getPlayer(p.getUsername());
-                       player.setW(player.getWins() + (match.getWinner() == 1 ? 1 : 0));
-                       player.setL(player.getLosses() + (match.getWinner() == 2 ? 1 : 0));
-                       player.setGamesPlayed(player.getGamesPlayed() + 1);
-                       player.setK(player.getKills() + p.getKills());
-                       player.setD(player.getDeaths() + (p.getHealthPercentage() == 0 ? 1 : 0));
-                       teamAL.add(player);
-                   }
-                   for (MatchPlayer p : teamB) {
-                       Player player = Leaderboard.getPlayer(p.getUsername());
-                       player.setW(player.getWins() + (match.getWinner() == 2 ? 1 : 0));
-                       player.setL(player.getLosses() + (match.getWinner() == 1 ? 1 : 0));
-                       player.setGamesPlayed(player.getGamesPlayed() + 1);
-                       player.setK(player.getKills() + p.getKills());
-                       player.setD(player.getDeaths() + (p.getHealthPercentage() == 0 ? 1 : 0));
-                       teamBL.add(player);
-                   }
+                       List<Player> teamAL = new ArrayList<>();
+                       List<Player> teamBL = new ArrayList<>();
 
-                   int avgElo = 0;
-                   for (Player p : teamAL) {
-                       avgElo += p.getElo();
-                   }
-                   for (Player p : teamBL) {
-                       avgElo += p.getElo();
-                   }
+                       for (MatchPlayer p : teamA) {
+                           Player player = Leaderboard.getPlayer(p.getUsername());
+                           player.setW(player.getWins() + (match.getWinner() == 1 ? 1 : 0));
+                           player.setL(player.getLosses() + (match.getWinner() == 2 ? 1 : 0));
+                           player.setGamesPlayed(player.getGamesPlayed() + 1);
+                           player.setK(player.getKills() + p.getKills());
+                           player.setD(player.getDeaths() + (p.getHealthPercentage() == 0 ? 1 : 0));
+                           teamAL.add(player);
+                       }
+                       for (MatchPlayer p : teamB) {
+                           Player player = Leaderboard.getPlayer(p.getUsername());
+                           player.setW(player.getWins() + (match.getWinner() == 2 ? 1 : 0));
+                           player.setL(player.getLosses() + (match.getWinner() == 1 ? 1 : 0));
+                           player.setGamesPlayed(player.getGamesPlayed() + 1);
+                           player.setK(player.getKills() + p.getKills());
+                           player.setD(player.getDeaths() + (p.getHealthPercentage() == 0 ? 1 : 0));
+                           teamBL.add(player);
+                       }
 
-                   avgElo /= (teamA.length + teamB.length);
+                       int avgElo = 0;
+                       int aElo = 0;
+                       int bElo = 0;
 
-                   //Tie
-                   if (match.getWinner() == 0) {
                        for (Player p : teamAL) {
-                           int elo = p.getElo();
-                           int newElo = (int) (elo - (0.2 * (elo - avgElo)));
-                           p.setElo(newElo);
-                           Leaderboard.save(p);
+                           avgElo += p.getElo();
+                           aElo += p.getElo();
                        }
                        for (Player p : teamBL) {
-                           int elo = p.getElo();
-                           int newElo = (int) (elo - (0.2 * (elo - avgElo)));
-                           p.setElo(newElo);
-                           Leaderboard.save(p);
+                           avgElo += p.getElo();
+                           bElo += p.getElo();
                        }
 
-                   }
-                   //Team A Win
-                   else if (match.getWinner() == 1) {
-                       for (Player p : teamAL) {
-                           int elo = p.getElo();
-                           int newElo = (int) (elo - (0.2 * (elo - (avgElo + 100))));
-                           p.setElo(newElo);
-                           Leaderboard.save(p);
-                       }
-                       for (Player p : teamBL) {
-                           int elo = p.getElo();
-                           int newElo = (int) (elo - (0.2 * (elo - (avgElo - 100))));
-                           p.setElo(newElo);
-                           Leaderboard.save(p);
-                       }
-                   }
-                   //Team B Win
-                   else if (match.getWinner() == 2) {
-                       for (Player p : teamAL) {
-                           int elo = p.getElo();
-                           int newElo = (int) (elo - (0.2 * (elo - (avgElo - 100))));
-                           p.setElo(newElo);
-                           Leaderboard.save(p);
-                       }
-                       for (Player p : teamBL) {
-                           int elo = p.getElo();
-                           int newElo = (int) (elo - (0.2 * (elo - (avgElo + 100))));
-                           p.setElo(newElo);
-                           Leaderboard.save(p);
-                       }
-                   }
+                       avgElo /= (teamA.length + teamB.length);
+                       aElo /= teamA.length;
+                       bElo /= teamB.length;
 
+                       int matchVal = (int) Math.round(Math.pow(aElo - bElo, 3) / SCALE_VALUE);
+
+                       int aWinVal = Math.max(Math.min(matchVal + WIN_CHANGE, MAX_CHANGE), 0);
+                       int aLossVal = Math.max(Math.min(matchVal - WIN_CHANGE, 0), -MAX_CHANGE);
+
+                       int bWinVal = Math.max(Math.min(-matchVal + WIN_CHANGE, MAX_CHANGE), 0);
+                       int bLossVal = Math.max(Math.min(-matchVal - WIN_CHANGE, 0), -MAX_CHANGE);
+
+                       int aChange = match.getWinner() == 1 ? aWinVal : aLossVal;
+                       int bChange = match.getWinner() == 2 ? bWinVal : bLossVal;
+
+                       //Tie
+                       if (match.getWinner() == 0) {
+                           for (Player p : teamAL) {
+                               int elo = p.getElo();
+
+                               int newElo = (int) (elo - (TIE_TO_AVG_PERCENT * (elo - avgElo)));
+
+                               p.setElo(newElo);
+                               Leaderboard.save(p);
+                           }
+                           for (Player p : teamBL) {
+                               int elo = p.getElo();
+
+                               int newElo = (int) (elo - (TIE_TO_AVG_PERCENT * (elo - avgElo)));
+
+                               p.setElo(newElo);
+                               Leaderboard.save(p);
+                           }
+
+                       }
+
+                       //Other Outcome
+                       else {
+                           for (Player p : teamAL) {
+                               int elo = p.getElo();
+                               int newElo = elo + aChange;
+                               p.setElo(newElo);
+                               Leaderboard.save(p);
+                           }
+                           for (Player p : teamBL) {
+                               int elo = p.getElo();
+                               int newElo = elo + bChange;
+                               p.setElo(newElo);
+                               Leaderboard.save(p);
+                           }
+                       }
+                   }
+                   successful++;
+                   Leaderboard.saveMatch(id);
                }
                else {
-                   failed = true;
+                   System.out.printf("ERROR: Match ID %s failed to load!%n", id);
+                   failed++;
+                   failedIds.add(id);
                }
-               if (failed) event.getMessage().addReaction("❌").queue();
-               else event.getMessage().addReaction("✔").queue();
+
            }
 
+           channel.sendMessage(
+                   String.format("%d matches entered, %d successful, %d failed, %d skipped.", successful + failed + skipped, successful, failed, skipped)
+           ).queue();
+
+           String message = "Failed IDs: \n";
+
+           for (String id : failedIds) {
+               message += id + " ";
+           }
+
+           if (failedIds.size() > 0) channel.sendMessage(message).queue();
         }
     }
 }
