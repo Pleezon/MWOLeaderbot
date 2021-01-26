@@ -62,7 +62,7 @@ public class AddMatch extends Command {
                attemptCap++;
                if (attemptCap > 60) {
                    try {
-                       Thread.sleep(65000);
+                       Thread.sleep(61000);
                        attemptCap = 0;
                    } catch (InterruptedException e) {
                    }
