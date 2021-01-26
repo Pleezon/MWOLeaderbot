@@ -123,6 +123,7 @@ public class AddMatch extends Command {
                        bElo /= teamB.length;
 
                        int matchVal = (int) Math.round(Math.pow(bElo - aElo, 2) / SCALE_VALUE);
+                       if (bElo < aElo) matchVal *= -1;
 
                        int aWinVal = Math.max(Math.min(matchVal + WIN_CHANGE, MAX_CHANGE), 0);
                        int aLossVal = Math.max(Math.min(matchVal - WIN_CHANGE, 0), -MAX_CHANGE);
