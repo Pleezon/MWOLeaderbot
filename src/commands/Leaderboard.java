@@ -13,6 +13,9 @@ import java.util.stream.Collectors;
  * @author Pleezon & B4CKF1SH
  */
 public class Leaderboard extends Command {
+    private static final int PAGE_SIZE = 20;
+
+
     @Override
     public void exec(MessageReceivedEvent event) {
         final TextChannel channel = (TextChannel) event.getChannel();
@@ -24,8 +27,8 @@ public class Leaderboard extends Command {
             page = Integer.parseInt(contents[1]);
         }
 
-        int minRank = 10 * (page - 1);
-        int maxRank = 10 * (page);
+        int minRank = PAGE_SIZE * (page - 1);
+        int maxRank = PAGE_SIZE * (page);
 
         Player[] ranks = leaderboard.Leaderboard.getRanks().skip(minRank).limit(maxRank - minRank).collect(Collectors.toUnmodifiableList()).toArray(new Player[0]);
 
@@ -37,6 +40,10 @@ public class Leaderboard extends Command {
             f1.append(i + minRank + 1).append("\n");
             f2.append(ranks[i].getName()).append("\n");
             f3.append(ranks[i].getElo()).append("\n");
+        }
+
+        if (ranks.length < 20) {
+            maxRank -= (20 - ranks.length);
         }
 
         EmbedBuilder b = new EmbedBuilder();
