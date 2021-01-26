@@ -59,23 +59,25 @@ public class AddMatch extends Command {
             ).queue();
 
            for (String id : ids) {
-               attemptCap++;
-               if (attemptCap > 60) {
+
+               if (attemptCap > 59) {
                    try {
                        Thread.sleep(61000);
-                       attemptCap = 0;
+                       attemptCap = -1;
                    } catch (InterruptedException e) {
                    }
                }
                System.out.printf("INFO: Adding match ID %s...%n", id);
-
-               Match match = Match.loadFromUrl(String.format("https://mwomercs.com/api/v1/matches/%s?api_token=%s", id, Token.getApi()));
-
                if (Leaderboard.matchExists(id)) {
                    System.out.printf("WARN: Match ID %s already registered, skipping.%n", id);
                    skipped++;
                    continue;
                }
+               attemptCap++;
+
+               Match match = Match.loadFromUrl(String.format("https://mwomercs.com/api/v1/matches/%s?api_token=%s", id, Token.getApi()));
+
+
 
                if (match != null) {
                    MatchPlayer[] teamA = match.getTeamA();
